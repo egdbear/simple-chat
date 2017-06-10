@@ -7,7 +7,7 @@
     "startweb": "node ./client/scripts/start.js",
     "build": "node client/scripts/build.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ./server/server.js"
   },
   "jest": {
     "collectCoverageFrom": [
