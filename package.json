@@ -51,7 +51,7 @@
   "bugs": {
     "url": "https://github.com/egdbear/simple-chat/issues"
   },
-  "homepage": "https://github.com/egdbear/simple-chat#readme",
+  "homepage": "http://localhost:3000",
   "devDependencies": {
     "autoprefixer": "7.1.0",
     "babel-core": "6.24.1",
@@ -92,6 +92,7 @@
   },
   "dependencies": {
     "express": "^4.15.3",
+    "mongoose": "^4.10.5",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",

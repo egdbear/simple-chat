@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 import { createStore } from 'redux';
 
-const store = createStore(()=> null);
+const store = createStore(() => null);
 
 ReactDOM.render(
   <Provider store={store}>
