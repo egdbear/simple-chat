@@ -1,5 +1,5 @@
 const UserService = require('../services');
 
 module.exports = (app) => {
-  app.get('/test', UserService);
+  app.get('/user', UserService);
 }
