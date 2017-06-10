@@ -69,6 +69,7 @@ npm-debug.log
 
 #client build
 /client/build/*
+/client/build/
 
 /coverage
 
