@@ -1,16 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './styles/index.css';
-import { Provider } from 'react-redux';
+import React from 'react';
+import Router from './routing';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import { createStore } from 'redux';
-
-const store = createStore(() => null);
+injectTapEventPlugin();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Router />,
   document.getElementById('root')
 );
