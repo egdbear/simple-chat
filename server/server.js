@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/', require('./routes/login-route'));
 app.use('/', require('./routes/user-route'));
+app.use('/', require('./routes/register-route'));
 
 app.listen(port, (error) => {
   if (error) {
