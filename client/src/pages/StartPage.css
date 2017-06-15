@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: roboto-regular;
 }
 
 .App-logo {
@@ -16,6 +17,7 @@
 
 .App-intro {
   font-size: large;
+  margin-top: 1em;
 }
 
 @keyframes App-logo-spin {
