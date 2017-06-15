@@ -8,6 +8,7 @@ import PrivateRoute from './PrivateRoute';
 import LoginPage from '../pages/LoginPage';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { connect } from 'react-redux';
 
 import '../styles/fonts.css';
 import '../styles/reset.css';
@@ -17,19 +18,27 @@ import {
   Route
 } from 'react-router-dom';
 
-export default (props) => {
-  return (
-    <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <Router>
-        <div>
-          <Menu />
-          <Route exact path="/" component={StartPage} />
-          <Route path="/about" component={About} />
-          <Route path="/signup" component={SignupPage} />
-          <Route path="/login" component={LoginPage}  />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
-        </div>
-      </Router>
-    </MuiThemeProvider>
-  );
+class Routes extends React.Component {
+  render() {
+    return (
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <Router>
+          <div>
+            <Menu />
+            <Route exact path="/" component={StartPage} />
+            <Route path="/about" component={About} />
+            <Route path="/signup" component={SignupPage} />
+            <Route path="/login" component={LoginPage}  />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
+          </div>
+        </Router>
+      </MuiThemeProvider>
+    );
+  }
 };
+
+export default connect(
+  (state) => ({
+    token: state.auth.token
+  })
+)(Routes)
