@@ -1,6 +1,7 @@
 const User = require('../models/User');
+const utils  = require('./utils');
 
-module.exports = (req, res, next) => {
+module.exports = function(req, res, next) {
   if (hasParams(req.body)) {
     var bodyParams = {name: req.body.name, email: req.body.email, password: req.body.password };
 
@@ -12,7 +13,7 @@ module.exports = (req, res, next) => {
       return res.status(401).json({message: 'Make sure your password is more than 8 characters long.'})
     }
 
-		User.findOne({email: req.body.email}, (err, user) => {
+		User.findOne({email: req.body.email}, function(err, user) {
 			if (err) {
         throw err;
       }
@@ -37,7 +38,7 @@ module.exports = (req, res, next) => {
 };
 
 function isEmailValid(email) {
-  if (!validateEmail(email)) {
+  if (!utils.validateEmail(email)) {
     return false;
   }
 
@@ -58,11 +59,6 @@ function isValidPassword(pass) {
   }
 
   return true;
-}
-
-function validateEmail(email) {
-    var re =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;//eslint-disable-line
-    return re.test(email);
 }
 
 function hasParams(params) {

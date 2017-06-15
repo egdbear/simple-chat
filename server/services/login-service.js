@@ -3,23 +3,23 @@ const config = require('../config.js');
 const User = require('../models/User');
 const _ = require('lodash');
 
-module.exports = (req, res, next) => {
+module.exports = function (req, res, next) {
   if (req.body.email && req.body.password) {
     const bodyParams = {email: req.body.email, password: req.body.password };
 
-    User.findOne({email: bodyParams.email}, (err, user) => {
+    User.findOne({email: bodyParams.email}, function(err, user) {
       if (err) {
         res.status(401).json({message: err});
       }
 
       if (_.isEmpty(user)) {
-        res.status(401).json({message: 'Email not founded. Please register.'});
+        res.status(401).json({message: 'User not registered. Please signup.'});
       } else {
         if (err) {
           res.status(401).json({message: err});
         } else {
 
-          user.validatePassword(bodyParams.password, (isValid) => {
+          user.validatePassword(bodyParams.password, function(isValid) {
 
             if (!isValid) {
               return res.status(401).json({message: 'Wrong password.'});
@@ -36,6 +36,6 @@ module.exports = (req, res, next) => {
       }
     });
   } else {
-    res.sendStatus(401).json({message: 'Please add username and password.'});
+    res.status(401).json({message: 'Please add username and password.'});
   }
 }
