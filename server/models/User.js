@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
+
+const rounds = 10;
 
 const UserSchema = mongoose.Schema({
   email: {
     type: String,
+    required: true,
     index: { unique: true }
   },
   password: String,
@@ -11,25 +14,37 @@ const UserSchema = mongoose.Schema({
 });
 
 UserSchema.pre('save', function(next) {
-    var user = this;
+  const user = this;
 
-    if (!user.isModified('password')) return next();
+  if (!user.isModified('password')) {
+    return next();
+  }
 
-    bcrypt.genSalt(10, function(err, salt) {
-        if (err) return next(err);
-        bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) return next(err);
-            user.password = hash;
-            next();
-        });
+  bcrypt.genSalt(rounds, (err, salt) => {
+    if (err) {
+      return next(err);
+    }
+
+    bcrypt.hash(user.password, salt, null, function(error, hash)  {
+      if (error) {
+        return next(error);
+      }
+
+      user.password = hash;
+      next();
     });
+  });
 });
 
 UserSchema.methods.validatePassword = function(password, callback) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        if (err) return callback(err);
-        callback(null, isMatch);
-    });
-};
+  bcrypt.compare(password, this.password, function(err, res) {
+    if (res) {
+      return callback(null, res);
+    } else {
+     return callback(err);
+    }
+  });
+}
 
-module.exports = mongoose.model('User', UserSchema);
+var userModel = mongoose.model('User', UserSchema);
+module.exports = userModel;

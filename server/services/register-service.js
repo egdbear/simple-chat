@@ -1,4 +1,4 @@
-const User = require('mongoose').model('User');
+const User = require('../models/User');
 
 module.exports = (req, res, next) => {
 
@@ -17,34 +17,18 @@ module.exports = (req, res, next) => {
   } else {
 		User.findOne({email: req.body.username}, (err, user) => {
 			if (err) {
-        console.log(err);
         throw err;
       }
 
       if (user) {
 				res.status(401).json({message: 'User already exists.'})
 			} else {
-        console.log('should create');
-
         const addUser = new User(bodyParams);
-
-        console.log(addUser);
 
         addUser.save(bodyParams, function(err, newUser) {
 					if (err) {
-            console.log('errr');
             throw err;
           }
-
-          console.log('saved?');
-
-          User.find({}, function(list, err) {
-            if (err) {
-              console.log('err 2');
-              console.log(err);
-            }
-            console.log(list);
-          });
 
 					res.status(200).json({message: 'Your account has been created.'});
 				});
