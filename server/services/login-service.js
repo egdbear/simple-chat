@@ -36,6 +36,6 @@ module.exports = function (req, res, next) {
       }
     });
   } else {
-    res.status(401).json({message: 'Please add username and password.'});
+    res.status(401).json({message: 'Please type email and password.'});
   }
 }
