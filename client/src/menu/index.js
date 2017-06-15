@@ -10,6 +10,8 @@ class Menu extends React.PureComponent {
       <div className={'menu'}>
         {this.props.token === null && <NavButton url={'/login'} label={'Login'} /> }
         {this.props.token === null && <NavButton url={'/signup'} label={'Signup'} /> }
+        {this.props.token !== null && <NavButton url={'/'} label={'home'} /> }
+        {this.props.token !== null && <NavButton url={'/dashboard'} label={'Dashboard'} /> }
         {this.props.token !== null && <NavButton url={'/logout'} label={'Logout'} /> }
       </div>
     );

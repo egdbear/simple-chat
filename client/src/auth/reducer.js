@@ -5,11 +5,11 @@ const initialState = { token: null };
 export default function(state = initialState, action) {
   if (action) {
     if (action.type === SET_TOKEN) {
-      return {...state,  token:action.payload.token };
+      return {...state,  token: action.payload.token };
     }
 
     if (action.type === REMOVE_TOKEN) {
-      return state.set('token', null);
+      return {...state, token: null };
     }
   }
 

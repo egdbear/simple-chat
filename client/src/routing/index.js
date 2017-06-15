@@ -6,6 +6,7 @@ import SignupPage from '../pages/SignupPage';
 import Menu from '../menu';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from '../pages/LoginPage';
+import Logout from '../pages/Logout';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
@@ -29,6 +30,7 @@ class Routes extends React.Component {
             <Route path="/about" component={About} />
             <Route path="/signup" component={SignupPage} />
             <Route path="/login" component={LoginPage}  />
+            <Route path="/logout" component={Logout}  />
             <PrivateRoute path="/dashboard" component={Dashboard} />
           </div>
         </Router>
