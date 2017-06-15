@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import _ from 'lodash';
+import { isAuthenticated } from '../auth';
 
 export default ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -12,13 +12,4 @@ export default ({ component: Component, ...rest }) => (
       }}/>
     )
   )}/>
-)
-
-const isAuthenticated = () => {
-  if (window && _.has(window.localStorage, 'state')) {
-    const state = JSON.parse(window.localStorage.getItem('state'));
-    return !_.isEmpty(_.get(state, 'auth.token'));
-  }
-
-  return false;
-}
+);
