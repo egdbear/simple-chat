@@ -1,5 +1,8 @@
 import React from 'react';
 import LoginForm from '../components/Login.js';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setToken } from '../auth/actions';
 
 class LoginPage extends React.Component {
   constructor(props, context) {
@@ -24,87 +27,43 @@ class LoginPage extends React.Component {
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
-    this.tryClick = this.tryClick.bind(this);
   }
-
-  tryClick(event) {
-    event.preventDefault();
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/user');
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
-        console.log('SUCESS');
-        console.log(xhr.response);
-
-      } else {
-        // failure
-        console.log('fail');
-        console.log(xhr.response);
-      }
-    });
-
-    const formData = {
-      'jwtSecret': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.VNUlJbm8C29XLfpVMqzBXocI26lT4qvmhKHKBjYfHrk"
-    };
-
-    xhr.send(JSON.stringify(formData));
-  }
-
 
   processForm(event) {
+    let _this = this;
     event.preventDefault();
 
-    const email = this.state.user.email;
-    const password = this.state.user.password;
-
+    const {password, email} = this.state.user;
     const formData = {
       email: email,
       password: password
     };
 
-    // create an AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/login');
-    xhr.setRequestHeader('Content-type', 'application/json');
-
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
-        console.log('SUCESS');
-        // change the component-container state
-        this.setState({
-          errors: {}
+    fetch('/login', {
+    	method: 'post',
+      body: JSON.stringify(formData),
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+    }).then(response => {
+      if (!response.ok) {
+        response.json().then(response => {
+          _this.setState({
+            errors: {summary: response.message}
+          });
         });
-
-        // save the token
-        // Auth.authenticateUser(xhr.response.token);
-
-
-        // change the current URL to /
-        // this.context.router.replace('/');
       } else {
-        // failure
-
-        console.log(xhr.response);
-
-        // change the component state
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
+        response.json().then(response => {
+          this.props.setToken({token : response.token});
+          _this.props.history.push('/dashboard');
         });
       }
+    }).catch((err) => {
+      _this.setState({
+        errors: {summary: err}
+      });
     });
-
-
-    xhr.send(JSON.stringify(formData));
   }
 
   changeUser(event) {
@@ -131,4 +90,9 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage;
+export default connect(
+  null,
+  dispatch => ({
+    ...bindActionCreators({ setToken }, dispatch),
+  })
+)(LoginPage);

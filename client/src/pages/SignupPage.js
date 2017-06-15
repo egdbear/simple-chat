@@ -1,10 +1,7 @@
 import React from 'react';
 import SignUpForm from '../components/Signup.js';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { setToken } from '../auth/actions';
 
-class SignUpPage extends React.Component {
+export default class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,38 +28,34 @@ class SignUpPage extends React.Component {
   }
 
   processForm(event) {
+    let _this = this;
     event.preventDefault();
-
-    this.props.setToken({token: 'test'});
-
-
-    console.log(this.props.setToken);
-
     const formData = this.state.user;
-
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/register');
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        this.setState({
-          errors: {}
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    fetch('/register', {
+    	method: 'post',
+      body: JSON.stringify(formData),
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+    }).then(response => {
+      if (!response.ok) {
+        response.json().then(response => {
+          _this.setState({
+            errors: {summary: response.message}
+          });
         });
-
-        console.log('The form is valid');
-      } else {
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
-        });
+        return;
       }
-    });
 
-    xhr.send(JSON.stringify(formData));
+      _this.props.history.push('/login');
+    }).catch((err) => {
+      _this.setState({
+        errors: {summary: err}
+      });
+    });
   }
 
   render() {
@@ -76,10 +69,3 @@ class SignUpPage extends React.Component {
     );
   }
 }
-
-export default connect(
-  null,
-  dispatch => ({
-    ...bindActionCreators({ setToken }, dispatch),
-  })
-)(SignUpPage);
