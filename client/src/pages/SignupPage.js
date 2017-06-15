@@ -1,5 +1,8 @@
 import React from 'react';
 import SignUpForm from '../components/Signup.js';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setToken } from '../auth/actions';
 
 class SignUpPage extends React.Component {
   constructor(props) {
@@ -29,6 +32,11 @@ class SignUpPage extends React.Component {
 
   processForm(event) {
     event.preventDefault();
+
+    this.props.setToken({token: 'test'});
+
+
+    console.log(this.props.setToken);
 
     const formData = this.state.user;
 
@@ -69,4 +77,9 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default SignUpPage;
+export default connect(
+  null,
+  dispatch => ({
+    ...bindActionCreators({ setToken }, dispatch),
+  })
+)(SignUpPage);
