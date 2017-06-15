@@ -1,21 +1,18 @@
 const User = require('../models/User');
 
 module.exports = (req, res, next) => {
+  if (hasParams(req.body)) {
+    var bodyParams = {name: req.body.name, email: req.body.email, password: req.body.password };
 
-  if (!!req.body) {
-    res.status(401);
-  }
+    if (!isEmailValid(bodyParams.email)) {
+      return res.status(401).json({message: 'Please enter a valid email.'})
+    }
 
-  var bodyParams = {email: req.body.username, password: req.body.password };
+    if (!isValidPassword(bodyParams.password)) {
+      return res.status(401).json({message: 'Make sure your password is more than 8 characters long.'})
+    }
 
-  if (!isEmailValid(bodyParams.email) || !isValidPassword(bodyParams.password)) {
-    res.status(401).json({message: 'Please Enter missing fields. Make sure your password is more than 8 characters long.'})
-  }
-
-  if (!validateEmail(bodyParams.email)) {
-    res.status(401).json({message: 'Please Enter valid email address.'})
-  } else {
-		User.findOne({email: req.body.username}, (err, user) => {
+		User.findOne({email: req.body.email}, (err, user) => {
 			if (err) {
         throw err;
       }
@@ -34,10 +31,16 @@ module.exports = (req, res, next) => {
 				});
 			}
 		});
-	}
+  } else {
+    res.status(401).json({message: 'Please fill all fields.'})
+  }
 };
 
 function isEmailValid(email) {
+  if (!validateEmail(email)) {
+    return false;
+  }
+
   if (email === '') {
     return false;
   }
@@ -50,10 +53,8 @@ function isEmailValid(email) {
 }
 
 function isValidPassword(pass) {
-  if (isEmailValid(pass)) {
-    if (pass.length < 8) {
-      return false;
-    }
+  if (pass.length < 8) {
+    return false;
   }
 
   return true;
@@ -62,4 +63,8 @@ function isValidPassword(pass) {
 function validateEmail(email) {
     var re =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;//eslint-disable-line
     return re.test(email);
+}
+
+function hasParams(params) {
+  return params.name !== '' && params.email !== '' && params.password !== '';
 }

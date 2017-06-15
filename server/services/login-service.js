@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
   if (req.body.email && req.body.password) {
     const bodyParams = {email: req.body.email, password: req.body.password };
 
-    User.findOne({email: bodyParams.email}, function(err, user) {
+    User.findOne({email: bodyParams.email}, (err, user) => {
       if (err) {
         res.status(401).json({message: err});
       }
@@ -18,9 +18,11 @@ module.exports = (req, res, next) => {
         if (err) {
           res.status(401).json({message: err});
         } else {
-          user.validatePassword(bodyParams.password, (err, isValid) => {
-            if (err) {
-              res.status(401);
+
+          user.validatePassword(bodyParams.password, (isValid) => {
+
+            if (!isValid) {
+              return res.status(401).json({message: 'Wrong password.'});
             }
 
             const payload = { id: user._id };
@@ -34,6 +36,6 @@ module.exports = (req, res, next) => {
       }
     });
   } else {
-    res.sendStatus(401);
+    res.sendStatus(401).json({message: 'Please add username and password.'});
   }
 }

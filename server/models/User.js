@@ -13,7 +13,7 @@ const UserSchema = mongoose.Schema({
   name: String
 });
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', (next) => {
   const user = this;
 
   if (!user.isModified('password')) {
@@ -25,7 +25,7 @@ UserSchema.pre('save', function(next) {
       return next(err);
     }
 
-    bcrypt.hash(user.password, salt, null, function(error, hash)  {
+    bcrypt.hash(user.password, salt, null, (error, hash) => {
       if (error) {
         return next(error);
       }
@@ -36,13 +36,9 @@ UserSchema.pre('save', function(next) {
   });
 });
 
-UserSchema.methods.validatePassword = function(password, callback) {
-  bcrypt.compare(password, this.password, function(err, res) {
-    if (res) {
-      return callback(null, res);
-    } else {
-     return callback(err);
-    }
+UserSchema.methods.validatePassword = (password, callback) => {
+  bcrypt.compare(password, this.password, function(err, isValid) {
+    callback(isValid);
   });
 }
 
