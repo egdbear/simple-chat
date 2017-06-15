@@ -1,0 +1,13 @@
+.form-wrapper {
+  margin: 0 auto;
+  width: 300px;
+  margin-top: 15%;
+}
+
+.login-form {
+  padding: 0.5em;
+}
+
+.button-line {
+  margin-top: 0.5em;
+}
