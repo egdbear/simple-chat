@@ -11,3 +11,8 @@
 .button-line {
   margin-top: 0.5em;
 }
+
+.error-message {
+  margin-top: 1em;
+  color: red;
+}
