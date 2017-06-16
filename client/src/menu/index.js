@@ -1,28 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
 import './Menu.css';
 import { connect } from 'react-redux';
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
 
 class Menu extends React.PureComponent {
   render() {
     return (
-      <div className={'menu'}>
-        {this.props.token === null && <NavButton url={'/login'} label={'Login'} /> }
-        {this.props.token === null && <NavButton url={'/signup'} label={'Signup'} /> }
-        {this.props.token !== null && <NavButton url={'/'} label={'home'} /> }
-        {this.props.token !== null && <NavButton url={'/dashboard'} label={'Dashboard'} /> }
-        {this.props.token !== null && <NavButton url={'/logout'} label={'Logout'} /> }
-      </div>
+      <Link to="/">
+        <AppBar
+          title="Simple Chat"
+          iconElementRight={this.props.token !== null ? <Logged /> : <Login />}
+          showMenuIconButton={false}
+          className={'title'}
+        />
+      </Link>
     );
   }
 }
 
-const NavButton = (props) => {
-  return (
-    <div className={'button'}><Link to={props.url}><RaisedButton primary={true} label={props.label}/></Link></div>
-  );
-};
+const Logged = (props) => (
+  <div className={'menu'}>
+    <Link to={'/dashboard'}><FlatButton {...this.props} label="Rooms" /></Link>
+    <Link to={'/profile'}><FlatButton {...this.props} label="Profile" /></Link>
+    <Link to={'/logout'}><FlatButton {...this.props} label="Logout" /></Link>
+  </div>
+);
+
+class Login extends React.Component {
+  render() {
+    return (
+      <div>
+        <Link to={'/signup'}><FlatButton {...this.props} label="Signup" /></Link>
+        <Link to={'/login'}><FlatButton {...this.props} label="Login" /></Link>
+      </div>
+    );
+  }
+}
 
 export default connect(
   state => ({

@@ -13,8 +13,16 @@
   margin-right: 0.5em;
 }
 
+a {
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 500px) {
   .menu {
     text-align: center;
+  }
+
+  a .title h1 {
+    display: none !important;
   }
 }
