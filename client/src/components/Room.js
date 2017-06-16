@@ -9,9 +9,6 @@ export default class Room extends React.Component {
   }
 
   navigate(roomId) {
-    console.log(this.props);
-    console.log(roomId);
-    console.log(this.props.history);
     this.props.history.push(`dashboard/${roomId}`);
   }
 
@@ -19,7 +16,7 @@ export default class Room extends React.Component {
     const props = this.props;
     return (
       <div>
-        <ListItem key={props.id} primaryText={props.name} onClick={() => this.navigate(props.name)}>
+        <ListItem key={props.id} primaryText={props.name} onClick={() => this.navigate(props.id)}>
         </ListItem>
         <Divider inset={false} />
       </div>

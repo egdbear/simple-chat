@@ -10,10 +10,23 @@ class Room extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.socket = io('/');
-      this.socket.on('message', message => {
-        this.setState({ messages: [message, ...this.state.messages] })
-    })
+    this.socket = io('/room');
+    const roomId = this.props.match.params.id;
+
+    this.socket.emit('join', roomId);
+
+    this.socket.on('message', message => {
+      this.setState({ messages: [message, ...this.state.messages] })
+    });
+
+    this.socket.on('connect', () => {
+      this.socket.emit('room', roomId);
+    });
+  }
+
+  componentWillUnmount() {
+    const roomId = this.props.match.params.id;
+    this.socket.emit('disconnect', roomId);
   }
 
   handleSubmit = e => {
@@ -24,8 +37,13 @@ class Room extends React.PureComponent {
         name: 'Me'
       }
 
+      const data = {
+        roomId: this.props.match.params.id,
+        message: message
+      };
+
       this.setState({ messages: [message, ...this.state.messages] })
-      this.socket.emit('message', message);
+      this.socket.emit('message', data);
       e.target.value = '';
     }
   }
@@ -37,7 +55,8 @@ class Room extends React.PureComponent {
 
     return (
       <div>
-      <input type={'text'} placeholder={'Enter message'} onKeyUp={this.handleSubmit} />
+        ROOM ID : {this.props.match.params.id}
+        <input type={'text'} placeholder={'Enter message'} onKeyUp={this.handleSubmit} />
         {messages}
       </div>
     );

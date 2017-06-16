@@ -8,7 +8,6 @@ module.exports = function (io) {
       room.listRooms(function(err, rooms) {
         socket.emit('list-rooms', rooms);
       })
-
     });
 
     socket.on('message', message => {
@@ -17,5 +16,19 @@ module.exports = function (io) {
         from: socket.id.slice(8)
       })
     })
+  });
+
+  io.of('/room').on('connection', function(socket) {
+    socket.on('join', function(roomId) {
+      socket.join(roomId);
+    });
+
+    socket.on('disconnect', function(roomId) {
+      socket.leave(roomId);
+    });
+
+    socket.on('message', function(data) {
+		    socket.broadcast.to(data.roomId).emit('message', data.message);
+	  });
   });
 }
