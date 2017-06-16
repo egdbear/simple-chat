@@ -3,22 +3,14 @@ import LoginForm from '../components/Login.js';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setToken } from '../auth/actions';
+import { saveUser } from '../user/actions';
 
 class LoginPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
-
-    if (storedMessage) {
-      successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
-    }
-
     this.state = {
       errors: {},
-      successMessage,
       user: {
         email: '',
         password: ''
@@ -56,6 +48,7 @@ class LoginPage extends React.Component {
       } else {
         response.json().then(response => {
           this.props.setToken({token : response.token});
+          this.props.saveUser({user : response.user});
           _this.props.history.push('/dashboard');
         });
       }
@@ -93,6 +86,6 @@ class LoginPage extends React.Component {
 export default connect(
   null,
   dispatch => ({
-    ...bindActionCreators({ setToken }, dispatch),
+    ...bindActionCreators({ setToken, saveUser }, dispatch),
   })
 )(LoginPage);

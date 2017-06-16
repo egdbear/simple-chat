@@ -1,6 +1,5 @@
 import React from 'react';
 import StartPage from '../pages/StartPage';
-import About from '../pages/About';
 import Dashboard from '../pages/Dashboard';
 import SignupPage from '../pages/SignupPage';
 import Menu from '../menu';
@@ -28,7 +27,6 @@ class Routes extends React.Component {
           <div>
             <Menu />
               <Route exact path="/" component={StartPage} />
-              <Route path="/about" component={About} />
               <Route path="/signup" component={SignupPage} />
               <Route path="/login" component={LoginPage}  />
               <Route path="/logout" component={Logout}  />

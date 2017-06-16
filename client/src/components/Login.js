@@ -9,7 +9,6 @@ const LoginForm = ({
   onChange,
   tryClick,
   errors,
-  successMessage,
   user
 }) => (
   <div className={'form-wrapper'}>
@@ -18,7 +17,6 @@ const LoginForm = ({
         <form action="/" onSubmit={onSubmit}>
           <h2 className="card-heading">Login</h2>
 
-          {successMessage && <p className="success-message">{successMessage}</p>}
           {errors.summary && <p className="error-message">{errors.summary}</p>}
 
           <div>

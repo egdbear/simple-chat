@@ -1,6 +1,6 @@
 import React from 'react';
 import { map } from 'lodash';
-import io from 'socket.io-client'
+import io from 'socket.io-client';
 
 class Room extends React.PureComponent {
   constructor(props) {
@@ -25,9 +25,7 @@ class Room extends React.PureComponent {
       }
 
       this.setState({ messages: [message, ...this.state.messages] })
-
       this.socket.emit('message', message);
-
       e.target.value = '';
     }
   }
@@ -39,7 +37,7 @@ class Room extends React.PureComponent {
 
     return (
       <div>
-      <input type={'text'} placeholder={'enter message'} onKeyUp={this.handleSubmit} />
+      <input type={'text'} placeholder={'Enter message'} onKeyUp={this.handleSubmit} />
         {messages}
       </div>
     );
