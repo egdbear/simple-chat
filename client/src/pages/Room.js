@@ -34,7 +34,7 @@ class Room extends React.PureComponent {
     if (e.keyCode === 13 && !!body) {
       const message = {
         body,
-        name: 'Me'
+        from: 'Me'
       }
 
       const data = {
@@ -54,8 +54,8 @@ class Room extends React.PureComponent {
     });
 
     return (
-      <div>
-        ROOM ID : {this.props.match.params.id}
+      <div className={'room-wrapper'}>
+        <div className={'heading'}>Room chat: </div>
         <input type={'text'} placeholder={'Enter message'} onKeyUp={this.handleSubmit} />
         {messages}
       </div>

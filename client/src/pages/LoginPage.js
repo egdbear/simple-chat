@@ -47,8 +47,8 @@ class LoginPage extends React.Component {
         });
       } else {
         response.json().then(response => {
-          this.props.setToken({token : response.token});
-          this.props.saveUser({user : response.user});
+          _this.props.setToken({token : response.token});
+          _this.props.saveUser(response.user);
           _this.props.history.push('/dashboard');
         });
       }

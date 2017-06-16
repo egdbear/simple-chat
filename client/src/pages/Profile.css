@@ -1,0 +1,17 @@
+.profile-form {
+  margin: 0 auto;
+  width: 60%;
+}
+
+.heading {
+  font-family: roboto-regular;
+  font-size: 1.5em;
+  padding: 1em 0;
+  text-align: center;
+}
+
+
+.text {
+  font-size: 0.8em;
+  font-family: roboto-regular;
+}
