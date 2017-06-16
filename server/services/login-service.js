@@ -28,7 +28,10 @@ module.exports = function (req, res, next) {
             const payload = { id: user._id };
             const token = jwt.encode(payload, config.JWTSecret);
 
+            const { name, _id, email } = user;
+
             res.json({
+                user: {name, _id, email},
                 token: token
             });
           });
