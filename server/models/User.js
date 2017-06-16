@@ -10,6 +10,7 @@ const UserSchema = mongoose.Schema({
     index: { unique: true }
   },
   password: String,
+  description: String,
   name: String
 });
 
