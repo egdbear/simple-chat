@@ -6,6 +6,7 @@ const auth = require("./middleware/auth.js")();
 const bodyparser = require('body-parser');
 
 require('./models').connect('mongodb://localhost/simplechat');
+const socketIo = require('socket.io');
 
 const app = express();
 
@@ -29,10 +30,4 @@ const server = app.listen(port, (error) => {
   console.info('Express is listening on port %s.', port);
 });
 
-const io = require('socket.io').listen(server);
-
-io.on('connection', function (socket) {
-  socket.on('user connected', function (data) {
-    console.log(data);
-  });
-});
+const io = require('./sockets')(socketIo.listen(server));

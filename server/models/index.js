@@ -11,4 +11,5 @@ module.exports.connect = (uri) => {
   mongoose.Promise = global.Promise;
 
   require('./User');
+  require('./Room');
 };

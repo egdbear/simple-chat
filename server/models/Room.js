@@ -5,6 +5,9 @@ const RoomSchema = new mongoose.Schema({
     connections: { type: [{ userId: String, socketId: String }]}
 });
 
-var roomModel = mongoose.model('room', RoomSchema);
+RoomSchema.methods.listRooms = function(callback) {
+  return callback(null, [{id: 1, name: 'TestRoom'}, {id: 2, name: 'Tech'}, {id: 3, name: 'Lounge'}])
+}
 
+var roomModel = mongoose.model('room', RoomSchema);
 module.exports = roomModel;
