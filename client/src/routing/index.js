@@ -16,7 +16,7 @@ import '../styles/fonts.css';
 import '../styles/reset.css';
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route
 } from 'react-router-dom';
 

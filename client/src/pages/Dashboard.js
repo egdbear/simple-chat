@@ -13,14 +13,13 @@ class Dashboard extends React.PureComponent {
   componentDidMount() {
     const _this = this;
     socket.emit('list-rooms');
-    socket.on('updated-rooms-list', function(data) {
+    socket.on('list-rooms', function(data) {
       _this.setState({rooms: data});
     });
   }
 
   render() {
     const {history} = this.props;
-    console.log(this.props.children);
     return (
       <div>
         <h2 style={{textAlign: 'center', padding:'0 1em'}}>Room list</h2>
