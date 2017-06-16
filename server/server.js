@@ -8,6 +8,7 @@ const bodyparser = require('body-parser');
 require('./models').connect('mongodb://localhost/simplechat');
 
 const app = express();
+
 app.use(bodyparser.json());
 
 app.use(express.static('./client/build/'));
@@ -21,9 +22,17 @@ app.use('/', require('./routes/login-route'));
 app.use('/', require('./routes/user-route'));
 app.use('/', require('./routes/register-route'));
 
-app.listen(port, (error) => {
+const server = app.listen(port, (error) => {
   if (error) {
     console.log(error);
   }
   console.info('Express is listening on port %s.', port);
+});
+
+const io = require('socket.io').listen(server);
+
+io.on('connection', function (socket) {
+  socket.on('user connected', function (data) {
+    console.log(data);
+  });
 });
