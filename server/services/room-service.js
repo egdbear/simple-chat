@@ -2,6 +2,7 @@ const Room = require('../models/Room');
 
 module.exports = {
   saveMessage: function(roomId, message, cb) {
+    message.date = new Date();
     Room.findByIdAndUpdate(roomId, {$push: {messages: message}}, { safe: true, upsert: true, new: true },
       function(err) {
         if (err) {

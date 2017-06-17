@@ -27,7 +27,7 @@ module.exports = function (io) {
     });
 
     socket.on('message', function(data) {
-      RoomService.saveMessage(data.roomId, data.message, function(err) {
+      RoomService.saveMessage(data.roomId, data.message, function(err, message) {
         if (err) {
           throw new Error(err);
         }
