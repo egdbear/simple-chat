@@ -46,5 +46,11 @@ const server = app.listen(port, (error) => {
 //   })
 // })
 
+// const Room = require('./models/Room');
+//
+// Room.remove({}, function(err) {
+//   console.log(err);
+// });
+
 
 require('./sockets')(socketIo.listen(server));

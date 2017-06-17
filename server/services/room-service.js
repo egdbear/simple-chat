@@ -1,8 +1,10 @@
 const Room = require('../models/Room');
+const _ = require ('lodash');
 
 module.exports = {
-  saveMessage: function(roomId, message, cb) {
+  saveMessage: function(roomId, message, userId, cb) {
     message.date = new Date();
+    message.userId = userId;
     Room.findByIdAndUpdate(roomId, {$push: {messages: message}}, { safe: true, upsert: true, new: true },
       function(err) {
         if (err) {
@@ -24,7 +26,7 @@ module.exports = {
         throw new Error(err);
       }
 
-      cb(list.messages);
+      cb(_.sortBy(list.messages, (o) => o.date));
     });
   }
 };

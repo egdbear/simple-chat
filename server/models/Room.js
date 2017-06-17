@@ -9,7 +9,8 @@ const RoomSchema = new mongoose.Schema({
   messages: [{
     from: {type: String},
     body: {type: String},
-    date: {type: Date}
+    userId: {type: String},
+    date: {type: Date},
   }]
 });
 
