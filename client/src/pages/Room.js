@@ -43,8 +43,7 @@ class Room extends React.PureComponent {
 
       const data = {
         roomId: this.props.match.params.id,
-        from: this.props.user.name,
-        message: message
+        message: {body, from: this.props.user.name}
       };
 
       this.setState({ messages: [message, ...this.state.messages] })

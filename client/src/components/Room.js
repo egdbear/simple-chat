@@ -16,7 +16,7 @@ export default class Room extends React.Component {
     const props = this.props;
     return (
       <div>
-        <ListItem key={props.id} primaryText={props.name} onClick={() => this.navigate(props.id)}>
+        <ListItem key={props.id} primaryText={props.name} onClick={() => this.navigate(props._id)}>
         </ListItem>
         <Divider inset={false} />
       </div>
