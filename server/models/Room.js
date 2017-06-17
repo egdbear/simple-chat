@@ -1,15 +1,15 @@
 const mongoose  = require('mongoose');
 
-const MessagesSchema = new mongoose.Schema({
-  user: { type: String},
-  body: { type: String}
-});
-
-//todo use rooms from db
-
 const RoomSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  messages: [MessagesSchema]
+  name: {
+    type: String, 
+    required: true,
+    index: { unique: true }
+  },
+  messages: [{
+    from: {type: String},
+    body: {type: String}
+  }]
 });
 
 RoomSchema.methods.listRooms = function(callback) {

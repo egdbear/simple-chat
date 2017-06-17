@@ -1,12 +1,14 @@
-const Room = require('../models/Room');
+const RoomService = require('../services/room-service');
 
 module.exports = function (io) {
-  const room = new Room();
-
   io.on('connection', function (socket) {
     socket.on('list-rooms', function (data) {
-      room.listRooms(function(err, rooms) {
-        socket.emit('list-rooms', rooms);
+      RoomService.listRooms(function(err, list){
+        if (err) {
+          throw new Error(err);
+        }
+
+        socket.emit('list-rooms', list);
       })
     });
 
@@ -28,7 +30,7 @@ module.exports = function (io) {
     });
 
     socket.on('message', function(data) {
-		    socket.broadcast.to(data.roomId).emit('message', data.message);
+      socket.broadcast.to(data.roomId).emit('message', data.message);
 	  });
   });
 }
