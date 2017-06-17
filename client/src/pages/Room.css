@@ -32,7 +32,7 @@
   overflow: auto;
   display: flex;
   background-color: #ECEFF1;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .message {
