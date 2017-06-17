@@ -1,6 +1,9 @@
 import React from 'react';
 import { map } from 'lodash';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
+
+import './Room.css';
 
 class Room extends React.PureComponent {
   constructor(props) {
@@ -29,9 +32,10 @@ class Room extends React.PureComponent {
     this.socket.emit('disconnect', roomId);
   }
 
-  handleSubmit = e => {
-    const body = e.target.value;
-    if (e.keyCode === 13 && !!body) {
+  handleSubmit = event => {
+    const body = event.target.value;
+
+    if (event.keyCode === 13 && !!body) {
       const message = {
         body,
         from: 'Me'
@@ -39,28 +43,43 @@ class Room extends React.PureComponent {
 
       const data = {
         roomId: this.props.match.params.id,
+        from: this.props.user.name,
         message: message
       };
 
       this.setState({ messages: [message, ...this.state.messages] })
       this.socket.emit('message', data);
-      e.target.value = '';
+      event.target.value = '';
     }
   }
 
   render() {
     const messages = map(this.state.messages, (m, i) => {
-      return <div key={i}>{m.from}: {m.body}</div>
+      return (
+        <div className={'message'} key={i}>
+          <div className={'message-body'}>{m.body}</div>
+          <div className={'message-from'}>{m.from}</div>
+        </div>
+      );
     });
 
     return (
       <div className={'room-wrapper'}>
         <div className={'heading'}>Room chat: </div>
-        <input type={'text'} placeholder={'Enter message'} onKeyUp={this.handleSubmit} />
-        {messages}
+        <div className={'conversation'}>
+          <div className={'chat-wrapper'}>
+          <div className={'chat'}>{messages}</div>
+          </div>
+          <div className={'input'}>
+            <input type={"text"} placeholder={"Press enter to send a message"} onKeyUp={this.handleSubmit} />
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default Room;
+export default connect(
+  state => ({
+  user: state.user
+}))(Room);
