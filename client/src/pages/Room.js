@@ -22,6 +22,10 @@ class Room extends React.PureComponent {
       this.setState({ messages: [message, ...this.state.messages] })
     });
 
+    this.socket.on('messages', messages => {
+      this.setState({ messages: [...messages, ...this.state.messages] })
+    });
+
     this.socket.on('connect', () => {
       this.socket.emit('room', roomId);
     });

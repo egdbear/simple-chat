@@ -11,18 +11,15 @@ module.exports = function (io) {
         socket.emit('list-rooms', list);
       })
     });
-
-    socket.on('message', message => {
-      socket.broadcast.emit('message', {
-        body: message.body,
-        from: socket.id.slice(8)
-      })
-    })
   });
 
   io.of('/room').on('connection', function(socket) {
     socket.on('join', function(roomId) {
       socket.join(roomId);
+
+      RoomService.listMessages(roomId, function(messages) {
+        socket.emit('messages', messages);
+      })
     });
 
     socket.on('disconnect', function(roomId) {
@@ -30,7 +27,13 @@ module.exports = function (io) {
     });
 
     socket.on('message', function(data) {
-      socket.broadcast.to(data.roomId).emit('message', data.message);
+      RoomService.saveMessage(data.roomId, data.message, function(err) {
+        if (err) {
+          throw new Error(err);
+        }
+
+        socket.broadcast.to(data.roomId).emit('message', data.message);
+      })
 	  });
   });
 }
