@@ -58,4 +58,35 @@
   line-height: 36px;
   outline: none;
   font-size: 14px;
+  box-sizing: border-box;
+}
+
+.edit {
+  background-image: url('../assets/edit.svg');
+  background-size: 15px 15px;
+  height: 15px;
+  width: 15px;
+  display: none;
+  margin-left: 0.5em;
+  margin-right: 0.2em;
+}
+
+.remove {
+  background-image: url('../assets/delete.svg');
+  background-size: 15px 15px;
+  height: 15px;
+  width: 15px;
+  display: none;
+}
+
+.message-body:hover .edit {
+  display: inline-block;
+}
+
+.edit:hover, .remove:hover {
+  cursor: pointer;
+}
+
+.message-body:hover .remove {
+  display: inline-block;
 }
