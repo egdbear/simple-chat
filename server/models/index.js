@@ -11,5 +11,6 @@ module.exports.connect = (uri) => {
   mongoose.Promise = global.Promise;
 
   require('./User');
-  require('./Room');
-};
+  require('./Room').roomModel();
+  require('./Room').messagesModel();
+}

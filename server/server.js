@@ -34,7 +34,7 @@ const server = app.listen(port, (error) => {
 */
 
 // const _ = require('lodash');
-// const Room = require('./models/Room');
+// const Room = require('./models/Room').roomModel();
 // const rooms = [{name: 'Local'}, {name: 'Random'}, {name: 'SimpleChat'}, {name: 'CologneNight'}]
 //
 // _.map(rooms, function(i) {
@@ -46,7 +46,7 @@ const server = app.listen(port, (error) => {
 //   })
 // })
 
-// const Room = require('./models/Room');
+// const Room = require('./models/Room').roomModel();
 //
 // Room.remove({}, function(err) {
 //   console.log(err);
