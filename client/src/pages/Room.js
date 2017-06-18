@@ -101,7 +101,7 @@ class Room extends React.PureComponent {
         style = { textAlign: 'right' };
       }
 
-      const from = this.props.isFromMe ? 'Me' : m.from;
+      const from = isFromMe ? 'Me' : m.from;
 
       return (
         <div className={'message'} key={i}>

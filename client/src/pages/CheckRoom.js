@@ -6,7 +6,7 @@ import Room from './Room';
 export default class CheckRoom extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isEmpty: true };
+    this.state = { isEmpty: true, romName: '' };
   }
 
   componentDidMount() {

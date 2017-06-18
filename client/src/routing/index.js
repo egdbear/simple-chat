@@ -5,7 +5,7 @@ import SignupPage from '../pages/SignupPage';
 import Menu from '../menu';
 import LoginPage from '../pages/LoginPage';
 import Logout from '../pages/Logout';
-import Room from '../pages/Room';
+import Room from '../pages/CheckRoom';
 import Profile from '../pages/Profile';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
