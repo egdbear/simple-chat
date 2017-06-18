@@ -1,8 +1,8 @@
 import React from 'react';
 import { map } from 'lodash';
 import io from 'socket.io-client';
+import MessageBody from './MessageBody';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
 
 import './Room.css';
 
@@ -91,9 +91,13 @@ class Room extends React.PureComponent {
   }
 
   render() {
+    const props = this.props;
+
+    console.log(props);
+
     const messages = map(this.state.messages, (m, i) => {
       let style = {};
-      const isFromMe = this.matchId(m, this.props.user._id) || m.me;
+      const isFromMe = this.matchId(m, props.user._id) || m.me;
 
       if (isFromMe) {
         style = { textAlign: 'right' };
@@ -126,87 +130,7 @@ class Room extends React.PureComponent {
   }
 }
 
-class MessageBody extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {edit: false}
-    this.editMessage = this.editMessage.bind(this);
-    this.removeMessage = this.removeMessage.bind(this);
-  }
-
-  editMessage = event => {
-    const body = event.target.value;
-    if (event.keyCode === 13 && !!body) {
-      const data = {
-        message: {
-          body,
-          messageId: this.props.messageId,
-        },
-        roomId: this.props.roomId
-      };
-
-      this.props.socket.emit('edit-message', data);
-      this.setState({edit: false})
-    }
-  }
-
-  removeMessage() {
-    const props = this.props;
-    const data = { message: {messageId: props.messageId}, roomId: this.props.roomId};
-    this.props.socket.emit('remove-message', data);
-  }
-
-  render() {
-    if (!this.state.edit) {
-      return (
-        <div className={'message-body'} style={this.props.style}>
-          {this.props.body}
-          {this.props.isFromMe && <div className={'edit'} onClick={() => this.setState({edit: true})}/> }
-          {this.props.isFromMe && <div className={'remove'} onClick={this.removeMessage}/> }
-        </div>
-      );
-    }
-
-    return (
-      <div className={'message-body'} style={{textAlign: 'right'}}>
-        <input type={'text'} placeholder={this.props.body} onKeyUp={this.editMessage} />
-      </div>
-    )
-  }
-}
-
-class CheckRoom extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = { isEmpty: true };
-  }
-
-  componentDidMount() {
-    this.socket = io('/room');
-    const props = this.props;
-    const roomId = this.props.match.params.id;
-    const _this = this;
-
-    this.socket.emit('check-rooms', roomId);
-
-    this.socket.on('empty-rooms', function(room) {
-      if (isEmpty(room)) {
-        return props.history.push('/dashboard');
-      }
-
-      console.log(room.name);
-
-      _this.setState({isEmpty: false, roomName: room.name});
-    });
-  }
-
-  render() {
-    const Comp = this.state.isEmpty ? null : <Room roomName={this.state.roomName} {...this.props} />;
-    return Comp;
-  }
-}
-
 export default connect(
   state => ({
   user: state.user
-}))(CheckRoom);
+}))(Room);
