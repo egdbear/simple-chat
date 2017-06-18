@@ -27,7 +27,6 @@ export default class CheckRoom extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.user);
     const Comp = this.state.isEmpty ? null : <Room roomName={this.state.roomName} {...this.props} />;
     return Comp;
   }

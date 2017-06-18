@@ -93,8 +93,6 @@ class Room extends React.PureComponent {
   render() {
     const props = this.props;
 
-    console.log(props);
-
     const messages = map(this.state.messages, (m, i) => {
       let style = {};
       const isFromMe = this.matchId(m, props.user._id) || m.me;
