@@ -13,7 +13,7 @@ $ npm start
 ```
 
 ### Fill the database
-You should manually add rooms to database by uncommenting piece of code inside `server.js` file in root.
+You should manually add rooms to database by uncommenting piece of code inside `server/server.js` file.
 
 
 ### Run mongo in background
